@@ -12,41 +12,51 @@ export default function App() {
   // A React hook is only allowed at the top of a function
   // Also cannot be used in an if statement
   const [step, setStep] = useState(0);
+  const [isOpen, setIsOpen] = useState(true);
 
   function handlePrevious() {
     // update state with setState() function, not manually!!
-    if (step > 0) setStep(step - 1);
+    // if (step > 0) setStep(step - 1);
+    // Below we update the state based on the current value of the state
+    if (step > 0) setStep((s) => s - 1);
   }
   function handleNext() {
-    if (step < 3) setStep(step + 1);
+    if (step < 3) setStep((s) => s + 1);
   }
 
   return (
-    <div className="steps">
-      <div className="numbers">
-        <div className={step >= 1 ? "active" : ""}>1</div>
-        <div className={step >= 2 ? "active" : ""}>2</div>
-        <div className={step >= 3 ? "active" : ""}>3</div>
-      </div>
+    <>
+      <button className="close" onClick={() => setIsOpen((is) => !is)}>
+        &times;
+      </button>
+      {isOpen && (
+        <div className="steps">
+          <div className="numbers">
+            <div className={step >= 1 ? "active" : ""}>1</div>
+            <div className={step >= 2 ? "active" : ""}>2</div>
+            <div className={step >= 3 ? "active" : ""}>3</div>
+          </div>
 
-      <p className="message">
-        {step === 0 ? messages[0] : `Step ${step}: ${messages[step]}`}
-      </p>
+          <p className="message">
+            {step === 0 ? messages[0] : `Step ${step}: ${messages[step]}`}
+          </p>
 
-      <div className="buttons">
-        <button
-          style={{ backgroundColor: "#7950f2", color: "#fff" }}
-          onClick={handlePrevious}
-        >
-          Previous
-        </button>
-        <button
-          style={{ backgroundColor: "#7950f2", color: "#fff" }}
-          onClick={handleNext}
-        >
-          Next
-        </button>
-      </div>
-    </div>
+          <div className="buttons">
+            <button
+              style={{ backgroundColor: "#7950f2", color: "#fff" }}
+              onClick={handlePrevious}
+            >
+              Previous
+            </button>
+            <button
+              style={{ backgroundColor: "#7950f2", color: "#fff" }}
+              onClick={handleNext}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
